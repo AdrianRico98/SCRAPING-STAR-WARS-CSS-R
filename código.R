@@ -13,7 +13,7 @@ page <- read_html("https://www.imdb.com/title/tt0458290/episodes?ref_=tt_eps_sm"
 titulos <- page %>% #creamos el vector con los titulos de los episodios.
   html_nodes(".info a") %>% #nodo extraído con el selector gadget.
   html_text() %>% 
-  str_subset("^[A-Z]") %>% # se obtiene un vector caracter donde los títulos de los episodios son los únicos elementos que empiezan con mayusculas, por eso extraemos con str_subset únicamente esos elementos.
+  str_subset("^[A-Z]") # se obtiene un vector caracter donde los títulos de los episodios son los únicos elementos que empiezan con mayusculas, por eso extraemos con str_subset únicamente esos elementos.
 
 ratings <- page %>% #creamos el vector con los ratings de los episodios.
   html_nodes(".ipl-rating-star.small .ipl-rating-star__rating") %>% #nodo extraído con el selector gadget.
