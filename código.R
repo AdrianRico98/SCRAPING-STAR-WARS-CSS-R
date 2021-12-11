@@ -66,6 +66,6 @@ data <- union(data_1,data_2) %>%
   union(data_6) %>%
   union(data_7)
 
-write.xlsx(clone_wars,"clone_wars.xlsx", asTable = TRUE) #si queremos los datos en excel, se puede ejecutar este código.
+write.xlsx(data,"clone_wars.xlsx", asTable = TRUE) #si queremos los datos en excel, se puede ejecutar este código.
 
 
