@@ -1,23 +1,24 @@
 
-#Cargamos las librerÌas necesarias.
+#Cargamos las librer√≠as necesarias.
 
 library(rvest)
 library(stringr)
 library(tidyverse)
+library(openxlsx)
 
-#Probamos el cÛdigo de scraping con los nodos extraidos por el selector gadget (css) en la temporada 7 (primera en cargar en IMDB)
+#Probamos el c√≥digo de scraping con los nodos extraidos por el selector gadget (css) en la temporada 7 (primera en cargar en IMDB)
 
 page <- read_html("https://www.imdb.com/title/tt0458290/episodes?ref_=tt_eps_sm") %>% #leemos la web entera.
 
 titulos <- page %>% #creamos el vector con los titulos de los episodios.
-  html_nodes(".info a") %>% #nodo extraÌdo con el selector gadget.
+  html_nodes(".info a") %>% #nodo extra√≠do con el selector gadget.
   html_text() %>% 
-  str_subset("^[A-Z]") %>% # se obtiene un vector caracter donde los tÌtulos de los episodios son los ˙nicos elementos que empiezan con mayusculas, por eso extraemos con str_subset ˙nicamente esos elementos.
+  str_subset("^[A-Z]") %>% # se obtiene un vector caracter donde los t√≠tulos de los episodios son los √∫nicos elementos que empiezan con mayusculas, por eso extraemos con str_subset √∫nicamente esos elementos.
 
 ratings <- page %>% #creamos el vector con los ratings de los episodios.
-  html_nodes(".ipl-rating-star.small .ipl-rating-star__rating") %>% #nodo extraÌdo con el selector gadget.
+  html_nodes(".ipl-rating-star.small .ipl-rating-star__rating") %>% #nodo extra√≠do con el selector gadget.
   html_text() %>% 
-  parse_number() #se importan de la web en formato caracter asÌ que se requiere de parse_number para que esten formateados correctamente.
+  parse_number() #se importan de la web en formato caracter as√≠ que se requiere de parse_number para que esten formateados correctamente.
 
 temporada <- replicate(length(titulos), 7) #creamos el vector que distinga en la tabla final la temporada de cada episodio.
 
@@ -25,8 +26,8 @@ data_7 <- data.frame(titulos,ratings, temporada)
 head(data_7)
 
 
-# Comprobado el funcionamiento del cÛdigo, creamos una funciÛn denominada scraping, aplicable al resto de temporadas (6).
-#Siendo n el n˙mero de temporadas y con las urls de cada temporada cargadas: 
+# Comprobado el funcionamiento del c√≥digo, creamos una funci√≥n denominada scraping, aplicable al resto de temporadas (6).
+#Siendo n el n√∫mero de temporadas y con las urls de cada temporada cargadas: 
 
 urls <- c("https://www.imdb.com/title/tt0458290/episodes?season=1","https://www.imdb.com/title/tt0458290/episodes?season=2","https://www.imdb.com/title/tt0458290/episodes?season=3","https://www.imdb.com/title/tt0458290/episodes?season=4","https://www.imdb.com/title/tt0458290/episodes?season=5","https://www.imdb.com/title/tt0458290/episodes?season=6")
 
@@ -49,7 +50,7 @@ scraping <- function(n){
   
 }
 
-#Aplicamos la funciÛn a todas las temporadas y unimos los conjuntos de cada temporada en la tabla final ("data").
+#Aplicamos la funci√≥n a todas las temporadas y unimos los conjuntos de cada temporada en la tabla final ("data").
 
 data_1 <- scraping(1)
 data_2 <- scraping(2)
@@ -65,6 +66,6 @@ data <- union(data_1,data_2) %>%
   union(data_6) %>%
   union(data_7)
 
-write.xlsx(clone_wars,"clone_wars.xlsx", asTable = TRUE) #si queremos los datos en excel, se puede ejecutar este cÛdigo.
+write.xlsx(clone_wars,"clone_wars.xlsx", asTable = TRUE) #si queremos los datos en excel, se puede ejecutar este c√≥digo.
 
 
